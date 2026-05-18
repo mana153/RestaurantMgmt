@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Contact | Aurevia Grand</title>
+
+    <link rel="stylesheet" href="/css/contact.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+
+</head>
+
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<section class="contact-banner">
+
+    <h1>Contact Aurevia Grand</h1>
+
+    <p>
+        We would be delighted to assist you.
+    </p>
+
+</section>
+
+<section class="contact-container">
+
+    <div class="contact-info">
+
+        <h2>Reach Us</h2>
+
+        <p>
+            Aurevia Grand Hotel
+        </p>
+
+        <p>
+            Mumbai, India
+        </p>
+
+        <p>
+            +91 9876543210
+        </p>
+
+        <p>
+            reservations@aureviagrand.com
+        </p>
+
+    </div>
+
+    <div class="contact-form">
+
+        <h2>Send a Message</h2>
+
+        <form>
+
+            <input type="text"
+                   placeholder="Your Name"
+                   required>
+
+            <input type="email"
+                   placeholder="Your Email"
+                   required>
+
+            <textarea placeholder="Your Message"
+                      rows="6"></textarea>
+
+            <button type="submit">
+                Send Message
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+</body>
+
+</html>

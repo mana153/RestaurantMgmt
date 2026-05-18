@@ -1,0 +1,56 @@
+
+body{
+    margin:0;
+    background:#111;
+    font-family:Arial;
+    color:white;
+    padding-top:90px;
+}
+
+.container{
+    padding:60px 10%;
+}
+
+h1{
+    font-size:45px;
+    margin-bottom:40px;
+    font-weight:300;
+}
+
+form{
+    margin-bottom:40px;
+}
+
+input{
+    padding:14px;
+    margin-right:10px;
+    width:220px;
+}
+
+button{
+    padding:14px 25px;
+    background:white;
+    border:none;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    border:1px solid #444;
+    padding:18px;
+    text-align:left;
+}
+
+th{
+    background:#222;
+}
+
+a{
+    color:#ff4d4d;
+    text-decoration:none;
+}

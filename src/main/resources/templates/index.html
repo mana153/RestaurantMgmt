@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Aurevia Grand</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+
+</head>
+
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<header class="navbar">
+
+    <div class="logo">
+        AUREVIA GRAND
+    </div>
+
+    <nav>
+
+        <a href="/">HOME</a>
+        <a href="/rooms">ROOMS</a>
+        <a href="/dining">DINING</a>
+        <a href="/contact">CONTACT</a>
+
+    </nav>
+
+    <button class="book-btn">
+        BOOK NOW
+    </button>
+
+</header>
+
+<section class="hero">
+
+    <div class="overlay">
+
+        <h1>
+            Luxury Redefined
+        </h1>
+
+        <p>
+            Inspired by timeless hospitality.
+        </p>
+
+        <button>
+            Explore Experience
+        </button>
+
+    </div>
+
+</section>
+
+<section class="about">
+
+    <div class="about-text">
+
+        <h2>
+            Welcome to Aurevia Grand
+        </h2>
+
+        <p>
+            A modern luxury experience inspired by
+            premium international hospitality brands.
+            Elegant rooms, fine dining and timeless design.
+        </p>
+
+    </div>
+
+</section>
+
+<section class="cards">
+
+    <div class="card">
+
+        <img src="/images/room1.jpg">
+
+        <h3>Luxury Suites</h3>
+
+        <p>Elegant comfort crafted for premium stays.</p>
+
+    </div>
+
+    <div class="card">
+
+        <img src="/images/dining.jpg">
+
+        <h3>Fine Dining</h3>
+
+        <p>Curated culinary experiences from around the world.</p>
+
+    </div>
+
+</section>
+
+<script src="/js/script.js"></script>
+
+</body>
+
+</html>
