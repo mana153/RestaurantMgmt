@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle != null ? pageTitle + ' | Imperial Hotel' : 'Imperial Hotel & Restaurant'}">Imperial Hotel & Restaurant</title>
+    
+    <!-- Google Fonts Playfair & Inter -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Mobile Header Navigation Toggle -->
+    <header class="mobile-header-toggle">
+        <h2 style="color: white; font-family: 'Playfair Display', serif; font-size: 1.25rem; letter-spacing: 1px;">
+            IMPERIAL <span style="font-size: 0.65rem; color: #C5A880; font-family: sans-serif; letter-spacing: 2px;">HOTEL</span>
+        </h2>
+        <button id="mobileMenuBtn" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- 1. LEFT SIDEBAR NAVIGATION PANEL -->
+    <aside class="sidebar" id="sidebarPanel">
+        <div class="sidebar-logo">
+            <h1>IMPERIAL <span>Hotel & Restaurant</span></h1>
+        </div>
+        
+        <ul class="sidebar-menu">
+            <li class="sidebar-item">
+                <a th:href="@{/api/dashboard}" 
+                   th:classappend="${#httpServletRequest.requestURI == '/api/dashboard' ? 'active' : ''}" 
+                   class="sidebar-link">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Partner Hub</span>
+                </a>
+            </li>
+            
+            <li class="sidebar-item">
+                <a th:href="@{/menu}" 
+                   th:classappend="${#httpServletRequest.requestURI.startsWith('/menu') ? 'active' : ''}" 
+                   class="sidebar-link">
+                    <i class="fa-solid fa-utensils"></i>
+                    <span>Fine Dining Menu</span>
+                </a>
+            </li>
+            
+            <li class="sidebar-item">
+                <a th:href="@{/booking}" 
+                   th:classappend="${#httpServletRequest.requestURI.startsWith('/booking') ? 'active' : ''}" 
+                   class="sidebar-link">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span>Reservations</span>
+                </a>
+            </li>
+            
+            <li class="sidebar-item">
+                <a th:href="@{/guest}" 
+                   th:classappend="${#httpServletRequest.requestURI.startsWith('/guest') ? 'active' : ''}" 
+                   class="sidebar-link">
+                    <i class="fa-solid fa-user-tie"></i>
+                    <span>VIP Registry</span>
+                </a>
+            </li>
+        </ul>
+        
+        <div style="margin-top: auto; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
+            <p style="font-size: 0.7rem; color: rgba(255,255,255,0.4); letter-spacing: 1px; text-transform: uppercase;">
+                System Online v1.0
+            </p>
+        </div>
+    </aside>
+
+    <!-- 2. MAIN APPLICATION CONTENT WRAPPER -->
+    <div class="main-wrapper">
+        
+        <!-- Top Navbar -->
+        <header class="top-navbar">
+            <div class="top-navbar-title" th:text="${pageTitle}">
+                Dashboard Overview
+            </div>
+            
+            <div class="top-navbar-actions">
+                <span class="badge-luxury">
+                    <i class="fa-solid fa-crown" style="margin-right: 5px;"></i> Prestige Member
+                </span>
+                <div style="width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid var(--color-gold); background-color: var(--color-navy-dark); display: flex; align-items: center; justify-content: center; color: white;">
+                    <i class="fa-solid fa-user-ninja" style="color: var(--color-gold);"></i>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Rendered Child Template Fragment -->
+        <main class="content-container">
+            <div th:replace="${content}">
+                <!-- Sub-templates replace this placeholder content -->
+            </div>
+        </main>
+        
+    </div>
+
+    <!-- Responsive Sidebar Drawer Toggle Logic -->
+    <script>
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const sidebar = document.getElementById('sidebarPanel');
+            sidebar.classList.toggle('open');
+        });
+
+        // Close sidebar drawer if clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebarPanel');
+            const toggleBtn = document.getElementById('mobileMenuBtn');
+            const isClickInsideSidebar = sidebar.contains(event.target);
+            const isClickInsideToggleBtn = toggleBtn.contains(event.target);
+
+            if (!isClickInsideSidebar && !isClickInsideToggleBtn && sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+            }
+        });
+    </script>
+</body>
+</html>

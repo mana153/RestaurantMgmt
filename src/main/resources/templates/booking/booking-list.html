@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(content=~{::section})}">
+<body>
+<section>
+    
+    <!-- 1. GRID ACTION BAR -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1.5rem;">
+        <div>
+            <h2 style="font-family: var(--font-headings); font-size: 2rem; margin-bottom: 5px;">Imperial Suite Reservations</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Manage royal lodging guest arrivals, check-in timelines, and stay logs.</p>
+        </div>
+        
+        <a th:href="@{/booking/new}" class="btn-gold">
+            <i class="fa-solid fa-plus"></i> Secure Suite Booking
+        </a>
+    </div>
+
+    <!-- 2. LUXURY TABLE OF BOOKINGS -->
+    <div class="luxe-card" style="padding: 1.5rem;">
+        <div class="luxe-table-wrapper">
+            <table class="luxe-table">
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>VIP Guest</th>
+                        <th>Lodging Room</th>
+                        <th>Stay Timeline</th>
+                        <th>Total Cost</th>
+                        <th>Status</th>
+                        <th style="text-align: right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="b : ${bookings}">
+                        <td>
+                            <strong th:text="'#RSV-08' + ${b.id}">#RSV-081</strong>
+                        </td>
+                        <td>
+                            <strong th:text="${b.guest.firstName + ' ' + b.guest.lastName}">Vikram Malhotra</strong><br>
+                            <span style="font-size: 0.75rem; color: var(--text-muted);" th:text="${b.guest.email}">vikram.m@gmail.com</span>
+                        </td>
+                        <td>
+                            <span class="badge-luxury" th:text="'Room ' + ${b.room.roomNumber}">Room 301</span><br>
+                            <span style="font-size: 0.75rem; color: var(--text-muted);" th:text="${b.room.roomType} + ' - ₹' + ${b.room.pricePerNight} + '/night'">SUITE - ₹12,500</span>
+                        </td>
+                        <td>
+                            <i class="fa-regular fa-calendar-check" style="color: var(--color-gold); margin-right: 5px;"></i>
+                            <span th:text="${b.checkInDate} + ' to ' + ${b.checkOutDate}">2026-05-22 to 2026-05-25</span>
+                        </td>
+                        <td>
+                            <strong style="color: var(--color-gold-bright);" th:text="'₹' + ${#numbers.formatDecimal(b.totalPrice, 1, 'COMMA', 2, 'POINT')}">₹37,500.00</strong>
+                        </td>
+                        <td>
+                            <!-- Status Pill Display -->
+                            <span class="status-pill" 
+                                  th:classappend="${b.status == 'CONFIRMED' ? 'status-confirmed' : 
+                                                   (b.status == 'CHECKED_IN' ? 'status-checked-in' : 
+                                                   (b.status == 'CHECKED_OUT' ? 'status-checked-out' : 'status-cancelled'))}"
+                                  th:text="${b.status}">
+                                CONFIRMED
+                            </span>
+                        </td>
+                        <td style="text-align: right;">
+                            <div style="display: flex; gap: 8px; justify-content: flex-end; align-items: center;">
+                                
+                                <!-- Quick Check-In option -->
+                                <a th:if="${b.status == 'CONFIRMED'}" 
+                                   th:href="@{/booking/status/{id}(id=${b.id}, status='CHECKED_IN')}" 
+                                   class="btn-gold btn-sm" 
+                                   style="padding: 4px 8px !important; background-color: #10B981; border-color: #10B981; color: white;" 
+                                   title="Check-In Guest">
+                                    <i class="fa-solid fa-key"></i> Check-in
+                                </a>
+
+                                <!-- Quick Check-Out option -->
+                                <a th:if="${b.status == 'CHECKED_IN'}" 
+                                   th:href="@{/booking/status/{id}(id=${b.id}, status='CHECKED_OUT')}" 
+                                   class="btn-navy btn-sm" 
+                                   style="padding: 4px 8px !important; background-color: #64748B; border-color: #64748B; color: white;" 
+                                   title="Check-Out Guest">
+                                    <i class="fa-solid fa-door-closed"></i> Check-out
+                                </a>
+
+                                <!-- Edit / Cancel Dropdowns -->
+                                <a th:href="@{/booking/edit/{id}(id=${b.id})}" class="btn-outline btn-sm" title="Edit Booking details">
+                                    <i class="fa-solid fa-user-pen"></i>
+                                </a>
+
+                                <!-- Quick Cancel -->
+                                <a th:if="${b.status == 'CONFIRMED' || b.status == 'CHECKED_IN'}" 
+                                   th:href="@{/booking/status/{id}(id=${b.id}, status='CANCELLED')}" 
+                                   class="btn-outline btn-sm" 
+                                   style="border-color: rgba(239,68,68,0.2); color: #EF4444;" 
+                                   title="Cancel Reservation">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </a>
+
+                                <!-- Delete -->
+                                <a th:href="@{/booking/delete/{id}(id=${b.id})}" 
+                                   onclick="return confirm('Remove this reservation transaction completely from database records?');" 
+                                   class="btn-outline btn-sm" 
+                                   style="border-color: rgba(239, 68, 68, 0.2); color: #EF4444;" 
+                                   title="Remove Record">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Empty Slate Message -->
+        <div th:if="${#lists.isEmpty(bookings)}" style="text-align: center; padding: 4rem 1.5rem; background: none;">
+            <i class="fa-solid fa-circle-info" style="font-size: 3rem; color: var(--color-gold); opacity: 0.5; margin-bottom: 1rem;"></i>
+            <h3 style="font-size: 1.25rem; font-family: var(--font-headings); margin-bottom: 5px;">No Suite Reservations on Record</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Book a stay in one of our presidential or standard luxury suites.</p>
+            <a th:href="@{/booking/new}" class="btn-gold btn-sm">Make Reservation</a>
+        </div>
+    </div>
+
+</section>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(content=~{::section})}">
+<body>
+<section>
+    
+    <div style="max-width: 750px; margin: 0 auto;">
+        
+        <!-- Back Link Navigation -->
+        <a th:href="@{/guest}" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 500; font-size: 0.85rem; margin-bottom: 2rem;">
+            <i class="fa-solid fa-arrow-left"></i> Return to Guest Directory
+        </a>
+
+        <!-- Master Luxury Form Card -->
+        <div class="luxe-card">
+            
+            <div class="luxe-card-header">
+                <h2 class="luxe-card-title">
+                    <i class="fa-solid fa-address-card" style="color: var(--color-gold); margin-right: 12px;"></i>
+                    <span th:text="${guest.id != null ? 'Refine Guest Profile' : 'Register VIP Guest'}">Register VIP Guest</span>
+                </h2>
+                <span class="badge-luxury">Guest Credentials</span>
+            </div>
+
+            <!-- Form Body -->
+            <form th:action="${formAction}" th:object="${guest}" method="post">
+                
+                <!-- Bind ID if in Edit Mode -->
+                <input type="hidden" th:field="*{id}" />
+
+                <div class="api-stats-grid" style="grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                    
+                    <!-- Input 1: First Name -->
+                    <div class="luxe-form-group" style="margin-bottom: 0;">
+                        <label class="luxe-form-label" for="firstName">First Name</label>
+                        <input type="text" 
+                               id="firstName" 
+                               th:field="*{firstName}" 
+                               class="luxe-form-control" 
+                               placeholder="e.g. Vikram" 
+                               required />
+                    </div>
+
+                    <!-- Input 2: Last Name -->
+                    <div class="luxe-form-group" style="margin-bottom: 0;">
+                        <label class="luxe-form-label" for="lastName">Last Name</label>
+                        <input type="text" 
+                               id="lastName" 
+                               th:field="*{lastName}" 
+                               class="luxe-form-control" 
+                               placeholder="e.g. Malhotra" 
+                               required />
+                    </div>
+                </div>
+
+                <div class="api-stats-grid" style="grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                    
+                    <!-- Input 3: Email -->
+                    <div class="luxe-form-group" style="margin-bottom: 0;">
+                        <label class="luxe-form-label" for="email">Email Address</label>
+                        <input type="email" 
+                               id="email" 
+                               th:field="*{email}" 
+                               class="luxe-form-control" 
+                               placeholder="e.g. vikram.malhotra@gmail.com" 
+                               required />
+                    </div>
+
+                    <!-- Input 4: Phone Number -->
+                    <div class="luxe-form-group" style="margin-bottom: 0;">
+                        <label class="luxe-form-label" for="phoneNumber">Active Phone Number</label>
+                        <input type="text" 
+                               id="phoneNumber" 
+                               th:field="*{phoneNumber}" 
+                               class="luxe-form-control" 
+                               placeholder="e.g. +91 98765 43210" 
+                               required />
+                    </div>
+                </div>
+
+                <!-- Input 5: Identification Proof -->
+                <div class="luxe-form-group" style="margin-bottom: 2.5rem;">
+                    <label class="luxe-form-label" for="idProof">Official Identification Proof (Passport / Aadhaar)</label>
+                    <input type="text" 
+                           id="idProof" 
+                           th:field="*{idProof}" 
+                           class="luxe-form-control" 
+                           placeholder="e.g. PASSPORT-A39281, AADHAAR-123456" 
+                           required />
+                </div>
+
+                <!-- Form Controls Footer -->
+                <div style="display: flex; justify-content: flex-end; gap: 15px; border-top: 1px solid var(--border-light); padding-top: 2rem;">
+                    <a th:href="@{/guest}" class="btn-outline">Cancel</a>
+                    <button type="submit" class="btn-gold">
+                        <i class="fa-solid fa-user-check"></i> Register Guest
+                    </button>
+                </div>
+
+            </form>
+            
+        </div>
+        
+    </div>
+
+</section>
+</body>
+</html>

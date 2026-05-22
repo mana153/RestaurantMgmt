@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lodging & Restaurant</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="main-layout">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h3>Admin Menu</h3>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/menu-items}">Menu Management</a>
+        <a th:href="@{/admin/rooms}">Room Inventory</a>
+        <a th:href="@{/inventory}">Inventory Management</a>
+        <a th:href="@{/admin/users}">User Management</a>
+        <a th:href="@{/admin/audit-log}">System Audit Log</a>
+        <hr>
+        <h3>Operations</h3>
+        <a th:href="@{/receptionist/room-status}">Room Status</a>
+        <a th:href="@{/receptionist/check-in-out}">Check-in/out</a>
+        <a th:href="@{/receptionist/folios}">Folio Management</a>
+        <a th:href="@{/cashier/pos}">POS Terminal</a>
+        <a th:href="@{/cashier/tables}">Table Management</a>
+        <a th:href="@{/housekeeping/assignments}">Housekeeping Assignments</a>
+        <a th:href="@{/housekeeping/my-tasks/1}">My Housekeeping Tasks</a>
+        <a th:href="@{/chef/kot}">KOT Board</a>
+        <a th:href="@{/manager/reports/occupancy}">Occupancy Report</a>
+        <a th:href="@{/manager/reports/revenue}">Revenue Report</a>
+        <a th:href="@{/manager/scheduling}">Staff Scheduling</a>
+        <hr>
+        <h3>API</h3>
+        <a th:href="@{/api/dashboard}">API Dashboard</a>
+    </div>
+
+    <div class="content">
+        <!-- Top Navbar -->
+        <div class="top-navbar">
+            <div class="logo">The Golden Spoon</div>
+            <div>
+                <a th:href="@{/}">Home</a>
+                <a th:href="@{/booking}">Booking</a>
+                <a th:href="@{/guest/menu}">Menu</a>
+                <a th:href="@{/guest/1/preferences}">My Preferences</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div layout:fragment="content" class="container-fluid">
+            <!-- Page-specific content will be inserted here -->
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            Contact us: (123) 456-7890 | info@thegoldenspoon.com
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

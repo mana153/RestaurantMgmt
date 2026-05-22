@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(content=~{::section})}">
+<body>
+<section>
+    
+    <!-- 1. GRID ACTION BAR -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1.5rem;">
+        <div>
+            <h2 style="font-family: var(--font-headings); font-size: 2rem; margin-bottom: 5px;">Fine Dining Culinary Menu</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Refining gourmet experiences with delicate ingredients and imperial luxury.</p>
+        </div>
+        
+        <a th:href="@{/menu/new}" class="btn-gold">
+            <i class="fa-solid fa-plus"></i> Add Gourmet Dish
+        </a>
+    </div>
+
+    <!-- 2. QUICK CATEGORY FILTERS -->
+    <div class="menu-filter-nav">
+        <a th:href="@{/menu}" 
+           class="menu-filter-btn" 
+           th:classappend="${selectedCategory == 'ALL' ? 'active' : ''}">
+            All Masterpieces
+        </a>
+        <a th:href="@{/menu(category='STARTER')}" 
+           class="menu-filter-btn" 
+           th:classappend="${selectedCategory == 'STARTER' ? 'active' : ''}">
+            Exquisite Starters
+        </a>
+        <a th:href="@{/menu(category='MAIN_COURSE')}" 
+           class="menu-filter-btn" 
+           th:classappend="${selectedCategory == 'MAIN_COURSE' ? 'active' : ''}">
+            Signature Main Courses
+        </a>
+        <a th:href="@{/menu(category='DESSERT')}" 
+           class="menu-filter-btn" 
+           th:classappend="${selectedCategory == 'DESSERT' ? 'active' : ''}">
+            Sweet Confections
+        </a>
+        <a th:href="@{/menu(category='BEVERAGE')}" 
+           class="menu-filter-btn" 
+           th:classappend="${selectedCategory == 'BEVERAGE' ? 'active' : ''}">
+            Artisan Elixirs
+        </a>
+    </div>
+
+    <!-- 3. DETAILED DISH CARDS GRID -->
+    <div class="menu-grid">
+        
+        <div th:each="item : ${menuItems}" class="dish-card">
+            
+            <!-- Dish Gradient Wrapper with Category Tag -->
+            <div class="dish-image-wrapper">
+                <span class="dish-category-badge" th:text="${#strings.replace(item.category, '_', ' ')}">MAIN COURSE</span>
+                
+                <!-- Graphic luxury fork-spoon icon to replace placeholder images beautifully -->
+                <div class="dish-placeholder-icon">
+                    <i th:if="${item.category == 'STARTER'}" class="fa-solid fa-shrimp"></i>
+                    <i th:if="${item.category == 'MAIN_COURSE'}" class="fa-solid fa-bowl-food"></i>
+                    <i th:if="${item.category == 'DESSERT'}" class="fa-solid fa-ice-cream"></i>
+                    <i th:if="${item.category == 'BEVERAGE'}" class="fa-solid fa-wine-glass-empty"></i>
+                </div>
+            </div>
+            
+            <!-- Dish Info & Details -->
+            <div class="dish-info">
+                <div class="dish-header">
+                    <h3 class="dish-name" th:text="${item.name}">Pan-Seared Wagyu Ribeye</h3>
+                    <span class="dish-price" th:text="'₹' + ${#numbers.formatDecimal(item.price, 1, 'COMMA', 2, 'POINT')}">₹2,800.00</span>
+                </div>
+                
+                <p class="dish-desc" th:text="${item.description}">
+                    A succulent cuts of dry-aged Wagyu beef cooked perfectly with organic rosemary infusion.
+                </p>
+                
+                <div class="dish-footer">
+                    <!-- Availability Pill -->
+                    <span class="dish-availability" th:classappend="${item.available ? 'avail-true' : 'avail-false'}">
+                        <i class="fa-solid" th:classappend="${item.available ? 'fa-circle-check' : 'fa-circle-xmark'}"></i>
+                        <span th:text="${item.available ? 'In Kitchen' : 'Sold Out'}">In Kitchen</span>
+                    </span>
+                    
+                    <!-- Action Triggers -->
+                    <div class="dish-actions">
+                        <a th:href="@{/menu/edit/{id}(id=${item.id})}" class="btn-outline btn-sm" title="Edit Masterpiece">
+                            <i class="fa-regular fa-pen-to-square"></i> Edit
+                        </a>
+                        <a th:href="@{/menu/delete/{id}(id=${item.id})}" 
+                           onclick="return confirm('Are you absolutely sure you want to retire this culinary masterpiece?');" 
+                           class="btn-outline btn-sm" 
+                           style="border-color: rgba(239, 68, 68, 0.2); color: #EF4444;" 
+                           title="Retire Item">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+
+    <!-- Empty Slate Message -->
+    <div th:if="${#lists.isEmpty(menuItems)}" style="text-align: center; padding: 5rem 2rem; background-color: var(--color-white); border-radius: var(--radius-lg); border: 1px solid var(--border-light); margin-top: 2rem;">
+        <i class="fa-solid fa-plate-wheat" style="font-size: 4rem; color: var(--color-gold); opacity: 0.6; margin-bottom: 1.5rem;"></i>
+        <h3 style="font-family: var(--font-headings); font-size: 1.5rem; margin-bottom: 5px;">No Culinary Creations Registered</h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem;">Begin curating your high-end restaurant menu by creating items.</p>
+        <a th:href="@{/menu/new}" class="btn-gold">Create Exquisite Dish</a>
+    </div>
+
+</section>
+</body>
+</html>

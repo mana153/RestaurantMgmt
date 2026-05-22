@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(content=~{::section})}">
+<body>
+<section>
+    
+    <!-- 1. STATS METRIC DISPLAY CARDS -->
+    <div class="metrics-row">
+        <!-- Card 1: Partner Sales Revenue -->
+        <div class="metric-card">
+            <div class="metric-info">
+                <h4>Partner Sales</h4>
+                <div class="value" th:text="'₹' + ${#numbers.formatDecimal(partnerSales, 1, 'COMMA', 2, 'POINT')}">₹48,250.00</div>
+            </div>
+            <div class="metric-icon">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+            </div>
+        </div>
+        
+        <!-- Card 2: Total API Requests -->
+        <div class="metric-card">
+            <div class="metric-info">
+                <h4>API Total Traffic</h4>
+                <div class="value" th:text="${totalRequests}">48</div>
+            </div>
+            <div class="metric-icon">
+                <i class="fa-solid fa-server"></i>
+            </div>
+        </div>
+        
+        <!-- Card 3: Active Room Bookings -->
+        <div class="metric-card">
+            <div class="metric-info">
+                <h4>Active Bookings</h4>
+                <div class="value" th:text="${activeBookingsCount}">12</div>
+            </div>
+            <div class="metric-icon">
+                <i class="fa-solid fa-bed"></i>
+            </div>
+        </div>
+
+        <!-- Card 4: Available lodging Suites -->
+        <div class="metric-card">
+            <div class="metric-info">
+                <h4>Available Suites</h4>
+                <div class="value" th:text="${activeRoomsCount} + ' / ' + ${totalRoomsCount}">8 / 12</div>
+            </div>
+            <div class="metric-icon">
+                <i class="fa-solid fa-door-open"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. MAIN HUB INTERFACES (API STATS & ACTIVITY FEEDS) -->
+    <div class="api-stats-grid">
+        
+        <!-- Left: API Transaction Details -->
+        <div class="luxe-card" style="margin-bottom: 0;">
+            <div class="luxe-card-header">
+                <h3 class="luxe-card-title"><i class="fa-solid fa-diagram-project" style="color: var(--color-gold); margin-right: 10px;"></i> REST API Analytics</h3>
+                <span class="badge-luxury" style="background: rgba(16, 185, 129, 0.1); color: #10B981; border-color: rgba(16, 185, 129, 0.2);">Operational</span>
+            </div>
+            
+            <div class="luxe-table-wrapper">
+                <table class="luxe-table">
+                    <thead>
+                        <tr>
+                            <th>API Operation Category</th>
+                            <th style="text-align: center;">Success</th>
+                            <th style="text-align: center;">Failure</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <strong>Listing Inquiries</strong><br>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">GET /api/partners/listings</span>
+                            </td>
+                            <td style="text-align: center; font-weight: bold; color: #10B981;" th:text="${listingRequests}">21</td>
+                            <td style="text-align: center; color: var(--text-muted); font-weight: 500;">-</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Order / Booking Creations</strong><br>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">POST /api/partners/create</span>
+                            </td>
+                            <td style="text-align: center; font-weight: bold; color: #10B981;" th:text="${createSuccess}">14</td>
+                            <td style="text-align: center; font-weight: bold; color: #EF4444;" th:text="${createFailure}">2</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Transaction Updates</strong><br>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">PUT /api/partners/update/{id}</span>
+                            </td>
+                            <td style="text-align: center; font-weight: bold; color: #10B981;" th:text="${updateSuccess}">8</td>
+                            <td style="text-align: center; font-weight: bold; color: #EF4444;" th:text="${updateFailure}">1</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Transaction Cancellations</strong><br>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">DELETE /api/partners/cancel/{id}</span>
+                            </td>
+                            <td style="text-align: center; font-weight: bold; color: #10B981;" th:text="${cancelSuccess}">2</td>
+                            <td style="text-align: center; font-weight: bold; color: #EF4444;" th:text="${cancelFailure}">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div style="margin-top: 2rem; padding: 1.25rem; border-radius: var(--radius-md); background-color: var(--color-ivory); border-left: 3px solid var(--color-gold);">
+                <h4 style="font-size: 0.85rem; margin-bottom: 5px; font-weight: 700; text-transform: uppercase; color: var(--color-navy-dark);">API Endpoints Tested</h4>
+                <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5;">
+                    These endpoints support Zomato & Swiggy webhook integrations. Run the integrated REST services locally or open the <a href="/swagger-ui/index.html" target="_blank" style="font-weight: 600; color: var(--color-gold-bright);">Swagger Documentation API <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.65rem;"></i></a> to invoke simulated transactions in real time.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Right: Terminal Style Activity Logs -->
+        <div class="luxe-card" style="margin-bottom: 0;">
+            <div class="luxe-card-header">
+                <h3 class="luxe-card-title"><i class="fa-solid fa-terminal" style="color: var(--color-gold); margin-right: 10px;"></i> Live Integration Activity Feed</h3>
+                <span class="badge-luxury" style="background: rgba(197, 168, 128, 0.05); color: var(--color-gold);"><i class="fa-solid fa-rotate fa-spin" style="margin-right: 5px;"></i> Streaming</span>
+            </div>
+            
+            <div class="activity-log-feed">
+                <div th:each="log : ${recentActivity}" class="log-item" th:text="${log}">
+                    18:42:15 - [ZOMATO] Successfully created order #14 of Amount ₹1250.00
+                </div>
+                <div th:if="${#lists.isEmpty(recentActivity)}" class="log-item" style="color: var(--text-muted); font-style: italic; text-align: center; border: none; padding-top: 5rem;">
+                    Waiting for inbound partner transmissions...
+                </div>
+            </div>
+            
+            <div style="margin-top: 1.5rem; text-align: right;">
+                <button onclick="window.location.reload();" class="btn-outline btn-sm">
+                    <i class="fa-solid fa-arrows-rotate"></i> Refresh Log Feed
+                </button>
+            </div>
+        </div>
+        
+    </div>
+
+</section>
+</body>
+</html>

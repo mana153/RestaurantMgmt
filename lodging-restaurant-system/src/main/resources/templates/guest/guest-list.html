@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(content=~{::section})}">
+<body>
+<section>
+    
+    <!-- 1. GRID ACTION BAR -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1.5rem;">
+        <div>
+            <h2 style="font-family: var(--font-headings); font-size: 2rem; margin-bottom: 5px;">Royal Guest Directory</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Maintain credentials, identification parameters, and profiles of VIP guests.</p>
+        </div>
+        
+        <a th:href="@{/guest/new}" class="btn-gold">
+            <i class="fa-solid fa-plus"></i> Register VIP Guest
+        </a>
+    </div>
+
+    <!-- 2. LUXURY TABLE OF GUESTS -->
+    <div class="luxe-card" style="padding: 1.5rem;">
+        <div class="luxe-table-wrapper">
+            <table class="luxe-table">
+                <thead>
+                    <tr>
+                        <th>Guest ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email Address</th>
+                        <th>Phone Number</th>
+                        <th>Identification Proof</th>
+                        <th style="text-align: right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="g : ${guests}">
+                        <td>
+                            <strong th:text="'#GST-08' + ${g.id}">#GST-081</strong>
+                        </td>
+                        <td>
+                            <strong style="color: var(--color-navy-dark);" th:text="${g.firstName}">Vikram</strong>
+                        </td>
+                        <td>
+                            <strong style="color: var(--color-navy-dark);" th:text="${g.lastName}">Malhotra</strong>
+                        </td>
+                        <td th:text="${g.email}">vikram.malhotra@gmail.com</td>
+                        <td th:text="${g.phoneNumber}">+91 98765 43210</td>
+                        <td>
+                            <span class="badge-luxury" style="padding: 3px 8px; font-size: 0.65rem; border-color: rgba(197, 168, 128, 0.4);" th:text="${g.idProof}">PASSPORT-A39281</span>
+                        </td>
+                        <td style="text-align: right;">
+                            <div style="display: flex; gap: 8px; justify-content: flex-end;">
+                                <a th:href="@{/guest/edit/{id}(id=${g.id})}" class="btn-outline btn-sm" title="Edit Profile">
+                                    <i class="fa-regular fa-pen-to-square"></i> Edit
+                                </a>
+                                <a th:href="@{/guest/delete/{id}(id=${g.id})}" 
+                                   onclick="return confirm('Retire this guest registry profile? Note: Any active bookings for this guest might fail if deleted.');" 
+                                   class="btn-outline btn-sm" 
+                                   style="border-color: rgba(239, 68, 68, 0.2); color: #EF4444;" 
+                                   title="Delete Profile">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Empty Slate Message -->
+        <div th:if="${#lists.isEmpty(guests)}" style="text-align: center; padding: 4rem 1.5rem; background: none;">
+            <i class="fa-solid fa-users-slash" style="font-size: 3.5rem; color: var(--color-gold); opacity: 0.5; margin-bottom: 1rem;"></i>
+            <h3 style="font-size: 1.25rem; font-family: var(--font-headings); margin-bottom: 5px;">No Guests Registered</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Register hotel visitors to activate booking capabilities.</p>
+            <a th:href="@{/guest/new}" class="btn-gold btn-sm">Register Guest</a>
+        </div>
+    </div>
+
+</section>
+</body>
+</html>

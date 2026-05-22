@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Edit Restaurant</title>
+
+    <link rel="stylesheet" href="/css/restaurants.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+
+</head>
+
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container">
+
+    <h1>Edit Restaurant</h1>
+
+    <form action="/saveRestaurant"
+          method="post"
+          th:object="${restaurant}">
+
+        <input type="hidden"
+               th:field="*{id}">
+
+        <input type="text"
+               th:field="*{name}"
+               placeholder="Restaurant Name"
+               required>
+
+        <input type="text"
+               th:field="*{cuisine}"
+               placeholder="Cuisine"
+               required>
+
+        <input type="number"
+               step="0.1"
+               th:field="*{rating}"
+               placeholder="Rating"
+               required>
+
+        <button type="submit">
+            Update Restaurant
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

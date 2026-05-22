@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(content=~{::section})}">
+<body>
+<section>
+    
+    <div style="max-width: 750px; margin: 0 auto;">
+        
+        <!-- Back Link Navigation -->
+        <a th:href="@{/booking}" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 500; font-size: 0.85rem; margin-bottom: 2rem;">
+            <i class="fa-solid fa-arrow-left"></i> Return to Reservations
+        </a>
+
+        <!-- Master Luxury Form Card -->
+        <div class="luxe-card">
+            
+            <div class="luxe-card-header">
+                <h2 class="luxe-card-title">
+                    <i class="fa-solid fa-hotel" style="color: var(--color-gold); margin-right: 12px;"></i>
+                    <span th:text="${booking.id != null ? 'Refine Suite Reservation' : 'Secure Suite Reservation'}">Secure Suite Reservation</span>
+                </h2>
+                <span class="badge-luxury">Imperial Stay</span>
+            </div>
+
+            <!-- Form Body -->
+            <form th:action="${formAction}" th:object="${booking}" method="post">
+                
+                <!-- Bind ID if in Edit Mode -->
+                <input type="hidden" th:field="*{id}" />
+
+                <div class="api-stats-grid" style="grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                    
+                    <!-- Selector 1: Registered VIP Guest -->
+                    <div class="luxe-form-group" style="margin-bottom: 0;">
+                        <label class="luxe-form-label" for="guest">VIP Guest Profile</label>
+                        <select id="guest" th:field="*{guest.id}" class="luxe-form-control" required>
+                            <option value="">-- Choose VIP Guest --</option>
+                            <option th:each="g : ${guests}" 
+                                    th:value="${g.id}" 
+                                    th:text="${g.firstName + ' ' + g.lastName + ' (' + g.email + ')'}">
+                                Vikram Malhotra
+                            </option>
+                        </select>
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 5px;">
+                            Guest not registered? Create a profile in the <a th:href="@{/guest/new}" style="font-weight: 600;">VIP Registry</a> first.
+                        </p>
+                    </div>
+
+                    <!-- Selector 2: Lodging Room -->
+                    <div class="luxe-form-group" style="margin-bottom: 0;">
+                        <label class="luxe-form-label" for="room">Select Suite / Room</label>
+                        <select id="room" th:field="*{room.id}" class="luxe-form-control" required>
+                            <option value="">-- Choose Luxury Room --</option>
+                            <option th:each="r : ${rooms}" 
+                                    th:value="${r.id}" 
+                                    th:text="'Room ' + ${r.roomNumber} + ' - ' + ${r.roomType} + ' (₹' + ${r.pricePerNight} + '/night)' + ${r.available ? ' [Available]' : ' [Occupied]'}">
+                                Room 301 - Suite (₹12,500/night) [Available]
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="api-stats-grid" style="grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                    
+                    <!-- Date Picker 1: Check-In -->
+                    <div class="luxe-form-group" style="margin-bottom: 0;">
+                        <label class="luxe-form-label" for="checkInDate">Arrival Date (Check-In)</label>
+                        <input type="date" 
+                               id="checkInDate" 
+                               th:field="*{checkInDate}" 
+                               class="luxe-form-control" 
+                               required />
+                    </div>
+
+                    <!-- Date Picker 2: Check-Out -->
+                    <div class="luxe-form-group" style="margin-bottom: 0;">
+                        <label class="luxe-form-label" for="checkOutDate">Departure Date (Check-Out)</label>
+                        <input type="date" 
+                               id="checkOutDate" 
+                               th:field="*{checkOutDate}" 
+                               class="luxe-form-control" 
+                               required />
+                    </div>
+                </div>
+
+                <div class="api-stats-grid" style="grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                    
+                    <!-- State Selection: Status -->
+                    <div class="luxe-form-group" style="margin-bottom: 0;">
+                        <label class="luxe-form-label" for="status">Reservation Status</label>
+                        <select id="status" th:field="*{status}" class="luxe-form-control" required>
+                            <option value="CONFIRMED">CONFIRMED</option>
+                            <option value="CHECKED_IN">CHECKED_IN</option>
+                            <option value="CHECKED_OUT">CHECKED_OUT</option>
+                            <option value="CANCELLED">CANCELLED</option>
+                        </select>
+                    </div>
+
+                    <!-- Muted Field (Total Price display message) -->
+                    <div class="luxe-form-group" style="margin-bottom: 0; display: flex; align-items: flex-end; padding-bottom: 5px;">
+                        <span style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
+                            <i class="fa-solid fa-calculator" style="color: var(--color-gold); margin-right: 5px;"></i>
+                            Total Price is calculated automatically by the service based on nights stayed and selected room price.
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Form Controls Footer -->
+                <div style="display: flex; justify-content: flex-end; gap: 15px; border-top: 1px solid var(--border-light); padding-top: 2rem;">
+                    <a th:href="@{/booking}" class="btn-outline">Cancel</a>
+                    <button type="submit" class="btn-gold">
+                        <i class="fa-solid fa-square-check"></i> Save Booking
+                    </button>
+                </div>
+
+            </form>
+            
+        </div>
+        
+    </div>
+
+</section>
+</body>
+</html>

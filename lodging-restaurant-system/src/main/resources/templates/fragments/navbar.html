@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<header class="navbar"
+        th:fragment="navbar">
+
+    <div class="logo">
+        AUREVIA GRAND
+    </div>
+
+    <nav>
+
+        <a href="/">HOME</a>
+        <a href="/rooms">ROOMS</a>
+        <a href="/dining">DINING</a>
+        <a href="/restaurants">ADMIN</a>
+        <a href="/contact">CONTACT</a>
+
+    </nav>
+
+    <div class="nav-buttons">
+
+        <div class="nav-buttons">
+
+            <div th:if="${session.loggedInUser != null}">
+
+        <span style="color:white; margin-right:15px;">
+
+            Welcome,
+            <span th:text="${session.loggedInUser}"></span>
+
+        </span>
+
+            </div>
+
+            <div th:if="${session.loggedInUser == null}">
+
+                <a href="/login" class="login-btn">
+                    LOGIN
+                </a>
+
+                <a href="/signup" class="signup-btn">
+                    SIGN UP
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+</body>
+
+</html>
