@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>POS Terminal</title>
+    <style>
+        .pos-layout { display: flex; gap: 20px; }
+        .menu-grid { flex-grow: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
+        .order-summary { width: 350px; border: 1px solid #ddd; padding: 20px; border-radius: 5px; }
+        .menu-item-card { border: 1px solid #ddd; padding: 15px; border-radius: 5px; text-align: center; }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>Point of Sale (POS)</h1>
+        <div class="pos-layout">
+            <!-- Menu Items Grid -->
+            <div class="menu-grid">
+                <div th:each="item : ${menuItems}" class="menu-item-card" th:data-name="${item.name}" th:data-price="${item.price}" th:data-id="${item.id}">
+                    <h5 th:text="${item.name}"></h5>
+                    <p th:text="'$' + ${item.price}"></p>
+                    <button class="btn btn-sm btn-primary add-to-order-btn">Add to Order</button>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <h3>Current Order</h3>
+                <ul id="order-items" class="list-group mb-3"></ul>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between"><span>Subtotal</span><strong id="subtotal">$0.00</strong></li>
+                    <li class="list-group-item d-flex justify-content-between"><span>Tax (10%)</span><strong id="tax">$0.00</strong></li>
+                    <li class="list-group-item d-flex justify-content-between"><strong>Total</strong><strong id="total">$0.00</strong></li>
+                </ul>
+                <hr>
+                <div class="d-grid gap-2">
+                    <button id="charge-to-room-btn" class="btn btn-secondary" type="button" data-toggle="modal" data-target="#chargeToRoomModal">Charge to Room</button>
+                    <form th:action="@{/cashier/pos/finalize-bill}" method="post" style="display: inline;">
+                        <button id="finalize-bill-btn" class="btn btn-success" type="submit">Finalize Bill (Cash/Card)</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charge to Room Modal -->
+    <div class="modal fade" id="chargeToRoomModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Charge to Room</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <form id="charge-to-room-form" th:action="@{/cashier/pos/charge-to-room}" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="folioId">Folio ID</label>
+                            <input type="number" class="form-control" id="folioId" name="folioId" required>
+                        </div>
+                        <input type="hidden" id="ordered-items-input" name="orderedItems">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit Charge</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script th:src="@{/js/pos.js}"></script>
+</div>
+</body>
+</html>

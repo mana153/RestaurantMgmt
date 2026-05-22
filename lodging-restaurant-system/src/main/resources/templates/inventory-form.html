@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Inventory Item Form</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>Inventory Item Form</h1>
+        <form th:action="@{/inventory}" th:object="${inventoryItem}" method="post">
+            <input type="hidden" th:field="*{id}" />
+            <div class="form-group">
+                <label>Item Name</label>
+                <input type="text" class="form-control" th:field="*{name}" required />
+            </div>
+            <div class="form-group">
+                <label>Quantity</label>
+                <input type="number" class="form-control" th:field="*{quantity}" required />
+            </div>
+            <div class="form-group">
+                <label>Unit</label>
+                <input type="text" class="form-control" th:field="*{unit}" required />
+            </div>
+            <div class="form-group">
+                <label>Reorder Level</label>
+                <input type="number" class="form-control" th:field="*{reorderLevel}" required />
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

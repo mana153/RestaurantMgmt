@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Menu Items</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>Menu Items</h1>
+        <a href="/menu-items/new" class="btn btn-primary mb-3">Add Menu Item</a>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="menuItem : ${menuItems}">
+                <td th:text="${menuItem.name}"></td>
+                <td th:text="${menuItem.description}"></td>
+                <td th:text="${menuItem.price}"></td>
+                <td th:text="${menuItem.category}"></td>
+                <td>
+                    <span th:if="${menuItem.soldOut}" class="badge badge-danger">Sold Out</span>
+                    <span th:if="${!menuItem.soldOut}" class="badge badge-success">Available</span>
+                </td>
+                <td>
+                    <a th:href="@{/menu-items/edit/{id}(id=${menuItem.id})}" class="btn btn-sm btn-info">Edit</a>
+                    <a th:href="@{/menu-items/delete/{id}(id=${menuItem.id})}" class="btn btn-sm btn-danger">Delete</a>
+                    <a th:href="@{/menu-items/toggle-sold-out/{id}(id=${menuItem.id})}" class="btn btn-sm btn-warning">Toggle Status</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

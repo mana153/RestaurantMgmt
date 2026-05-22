@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Housekeeping Assignments</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>Housekeeping Assignments</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Room</th>
+                <th>Status</th>
+                <th>Assign To</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="room : ${rooms}" th:if="${room.status == 'Dirty'}">
+                <form th:action="@{/housekeeping/assign}" method="post">
+                    <input type="hidden" name="roomId" th:value="${room.id}" />
+                    <td th:text="${room.roomNumber}"></td>
+                    <td th:text="${room.status}"></td>
+                    <td>
+                        <select class="form-control" name="staffId">
+                            <option th:each="s : ${staff}" th:if="${s.role == 'Housekeeping'}" th:value="${s.id}" th:text="${s.fullName}"></option>
+                        </select>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-primary">Assign</button>
+                    </td>
+                </form>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

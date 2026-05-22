@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Room Status</title>
+    <style>
+        .room-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+        .room-card { border: 1px solid #ddd; border-radius: 5px; padding: 20px; text-align: center; }
+        .room-card.Vacant { background-color: #90EE90; }
+        .room-card.Occupied { background-color: #FFB6C1; }
+        .room-card.Dirty { background-color: #FFFFE0; }
+        .room-card.OutOfOrder { background-color: #A9A9A9; color: white; }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>Room Status</h1>
+        <div class="room-grid">
+            <div th:each="room : ${rooms}" class="room-card" th:classappend="${room.status.replace(' ', '')}">
+                <h5 th:text="${room.roomNumber}"></h5>
+                <p th:text="${room.status}"></p>
+                <form th:if="${room.status != 'Out of Order'}" th:action="@{/housekeeping/maintenance}" method="post">
+                    <input type="hidden" name="roomId" th:value="${room.id}" />
+                    <button type="submit" class="btn btn-sm btn-secondary mt-2">Mark for Maintenance</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

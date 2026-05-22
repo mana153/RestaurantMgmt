@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>KOT Board</title>
+    <meta http-equiv="refresh" content="15">
+    <style>
+        .kot-board { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .kot-card { border: 1px solid #ddd; border-radius: 5px; padding: 20px; }
+        .preference-alert { background-color: #FFD700; color: #001f3f; font-weight: bold; padding: 10px; border-radius: 5px; margin-top: 10px; }
+        .timer { font-weight: bold; color: #d9534f; }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>Kitchen Order Tickets</h1>
+        <div class="kot-board">
+            <div th:each="folio : ${folios}" class="kot-card" th:if="${!folio.orderedItems.isEmpty()}">
+                <h5>Order for Folio #<span th:text="${folio.id}"></span></h5>
+                <p class="timer" th:if="${folio.createdAt}" th:data-created-at="${folio.createdAt}"></p>
+                <div th:if="${folio.reservation != null and folio.reservation.guest != null and folio.reservation.guest.dietaryPreferences}" class="preference-alert">
+                    <p th:text="'Dietary Preferences: ' + ${folio.reservation.guest.dietaryPreferences}"></p>
+                </div>
+                <ul class="list-group">
+                    <li th:each="item : ${folio.orderedItems}" class="list-group-item" th:text="${item.name}"></li>
+                </ul>
+                <form th:action="@{/chef/kot/complete-order}" method="post">
+                    <input type="hidden" name="folioId" th:value="${folio.id}" />
+                    <button type="submit" class="btn btn-success mt-3">Mark as Complete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const timers = document.querySelectorAll('.timer');
+            timers.forEach(timer => {
+                const createdAt = new Date(timer.dataset.createdAt);
+                setInterval(() => {
+                    const now = new Date();
+                    const diff = Math.floor((now - createdAt) / 1000);
+                    const minutes = Math.floor(diff / 60);
+                    const seconds = diff % 60;
+                    timer.innerText = `Time: ${minutes}m ${seconds}s`;
+                }, 1000);
+            });
+        });
+    </script>
+</div>
+</body>
+</html>

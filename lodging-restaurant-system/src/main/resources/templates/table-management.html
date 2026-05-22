@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Table Management</title>
+    <style>
+        .table-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        .table-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+        }
+        .table-card.Occupied { background-color: #FFB6C1; } /* Light Pink */
+        .table-card.Vacant { background-color: #90EE90; } /* Light Green */
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>Table Management</h1>
+        <div class="table-grid">
+            <div th:each="table : ${tables}" class="table-card" th:classappend="${table.occupied ? 'Occupied' : 'Vacant'}">
+                <h5 th:text="${table.tableName}"></h5>
+                <p th:text="${table.occupied ? 'Occupied' : 'Vacant'}"></p>
+                <form th:action="@{/cashier/tables/toggle-occupied/{id}(id=${table.id})}" method="post">
+                    <button type="submit" class="btn btn-sm btn-primary">Toggle Status</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

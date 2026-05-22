@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Room Form</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>Room Form</h1>
+        <form th:action="@{/admin/rooms}" th:object="${room}" method="post">
+            <input type="hidden" th:field="*{id}" />
+            <div class="form-group">
+                <label>Room Number</label>
+                <input type="text" class="form-control" th:field="*{roomNumber}" required />
+            </div>
+            <div class="form-group">
+                <label>Type</label>
+                <input type="text" class="form-control" th:field="*{type}" required />
+            </div>
+            <div class="form-group">
+                <label>Price</label>
+                <input type="number" step="0.01" class="form-control" th:field="*{price}" required />
+            </div>
+            <div class="form-group">
+                <label>Status</label>
+                <select class="form-control" th:field="*{status}">
+                    <option value="Vacant">Vacant</option>
+                    <option value="Occupied">Occupied</option>
+                    <option value="Dirty">Dirty</option>
+                    <option value="Out of Order">Out of Order</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

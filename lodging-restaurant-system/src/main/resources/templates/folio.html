@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Live Folio</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>Live Folio</h1>
+        <div th:if="${folio}">
+            <p><strong>Reservation ID:</strong> <span th:text="${folio.reservation.id}"></span></p>
+            <p><strong>Guest:</strong> <span th:text="${folio.reservation.guest.firstName} + ' ' + ${folio.reservation.guest.lastName}"></span></p>
+            <p><strong>Room:</strong> <span th:text="${folio.reservation.room.roomNumber}"></span></p>
+            <hr>
+            <h3>Room Charges</h3>
+            <p><strong>Room Rate:</strong> <span th:text="'$' + ${folio.reservation.room.price}"></span></p>
+            <hr>
+            <h3>Restaurant Orders</h3>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${folio.orderedItems}">
+                    <td th:text="${item.name}"></td>
+                    <td th:text="'$' + ${item.price}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <hr>
+            <p><strong>Subtotal:</strong> <span th:text="'$' + ${folio.totalBill + folio.reservation.room.price}"></span></p>
+            <p th:if="${folio.discount != null}"><strong>Discount:</strong> <span th:text="'-$' + ${folio.discount}"></span></p>
+            <h3>Total Bill: <span th:text="'$' + (${folio.totalBill + folio.reservation.room.price} - ${folio.discount != null ? folio.discount : 0.0})"></span></h3>
+
+            <!-- Manager-only discount form -->
+            <div th:if="${#authorization.expression('hasRole(''MANAGER'')')}">
+                <hr>
+                <h4>Manager Actions</h4>
+                <form th:action="@{/folio/{id}/apply-discount(id=${folio.id})}" method="post">
+                    <div class="form-group">
+                        <label>Apply Discount</label>
+                        <input type="number" step="0.01" class="form-control" name="discount" required />
+                    </div>
+                    <button type="submit" class="btn btn-warning">Apply Discount</button>
+                </form>
+            </div>
+        </div>
+        <div th:if="${folio == null}">
+            <p>No folio found for this ID.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

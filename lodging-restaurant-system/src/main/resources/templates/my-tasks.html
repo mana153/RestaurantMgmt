@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>My Housekeeping Tasks</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>My Tasks</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Room</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="log : ${logs}">
+                <td th:text="${log.room.roomNumber}"></td>
+                <td th:text="${log.room.status}"></td>
+                <td>
+                    <form th:action="@{/housekeeping/update-status}" method="post">
+                        <input type="hidden" name="logId" th:value="${log.id}" />
+                        <button type="submit" class="btn btn-success">Mark as Clean</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

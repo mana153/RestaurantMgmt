@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Our Menu</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>Our Menu</h1>
+        <div class="row">
+            <div class="col-md-4" th:each="menuItem : ${menuItems}">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${menuItem.name}"></h5>
+                        <p class="card-text" th:text="${menuItem.description}"></p>
+                        <p class="card-text font-weight-bold" th:text="'$' + ${menuItem.price}"></p>
+                        <form th:action="@{/folio/1/add-item}" method="post"> <!-- Hardcoded folioId=1 for now -->
+                            <input type="hidden" name="menuItemId" th:value="${menuItem.id}" />
+                            <button type="submit" class="btn btn-primary">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

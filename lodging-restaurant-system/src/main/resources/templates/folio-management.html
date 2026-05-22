@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Folio Management</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>Folio Management</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Folio ID</th>
+                <th>Guest</th>
+                <th>Room</th>
+                <th>Total Bill</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="folio : ${folios}">
+                <td th:text="${folio.id}"></td>
+                <td th:text="${folio.reservation.guest.firstName} + ' ' + ${folio.reservation.guest.lastName}"></td>
+                <td th:text="${folio.reservation.room.roomNumber}"></td>
+                <td th:text="'$' + ${folio.totalBill + folio.reservation.room.price}"></td>
+                <td>
+                    <span th:if="${folio.settled}" class="badge badge-success">Settled</span>
+                    <span th:if="${!folio.settled}" class="badge badge-warning">Pending</span>
+                </td>
+                <td>
+                    <a th:href="@{/folio/{id}(id=${folio.id})}" class="btn btn-sm btn-info">View Details</a>
+                    <form th:if="${!folio.settled}" th:action="@{/receptionist/folios/settle}" method="post" style="display: inline;">
+                        <input type="hidden" name="folioId" th:value="${folio.id}" />
+                        <button type="submit" class="btn btn-sm btn-success">Settle Bill</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

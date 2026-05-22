@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Inventory Management</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>Inventory Management</h1>
+        <a href="/inventory/new" class="btn btn-primary mb-3">Add New Item</a>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Unit</th>
+                <th>Reorder Level</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${inventoryItems}">
+                <td th:text="${item.name}"></td>
+                <td th:text="${item.quantity}"></td>
+                <td th:text="${item.unit}"></td>
+                <td th:text="${item.reorderLevel}"></td>
+                <td>
+                    <span th:if="${item.quantity <= item.reorderLevel}" class="badge badge-danger">Reorder</span>
+                    <span th:if="${item.quantity > item.reorderLevel}" class="badge badge-success">In Stock</span>
+                </td>
+                <td>
+                    <a th:href="@{/inventory/edit/{id}(id=${item.id})}" class="btn btn-sm btn-info">Edit</a>
+                    <a th:href="@{/inventory/delete/{id}(id=${item.id})}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

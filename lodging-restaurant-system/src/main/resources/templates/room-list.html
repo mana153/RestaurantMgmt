@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Room Inventory</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>Room Inventory</h1>
+        <a href="/admin/rooms/new" class="btn btn-primary mb-3">Add New Room</a>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Room Number</th>
+                <th>Type</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="room : ${rooms}">
+                <td th:text="${room.roomNumber}"></td>
+                <td th:text="${room.type}"></td>
+                <td th:text="'$' + ${room.price}"></td>
+                <td th:text="${room.status}"></td>
+                <td>
+                    <a th:href="@{/admin/rooms/edit/{id}(id=${room.id})}" class="btn btn-sm btn-info">Edit</a>
+                    <a th:href="@{/admin/rooms/delete/{id}(id=${room.id})}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

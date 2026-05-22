@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>API Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h1>API Usage Dashboard</h1>
+
+<table border="1">
+    <tr>
+        <th>Endpoint</th>
+        <th>Usage Count</th>
+    </tr>
+
+    <tr th:each="u : ${usageList}">
+        <td th:text="${u.endpointName}"></td>
+        <td th:text="${u.hitCount}"></td>
+    </tr>
+
+</table>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>API Usage Dashboard</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>API Usage Dashboard</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Endpoint</th>
+                <th>Total Requests</th>
+                <th>Success</th>
+                <th>Failure</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="stat : ${usageStats}">
+                <td th:text="${stat.endpoint}"></td>
+                <td th:text="${stat.totalRequests}"></td>
+                <td th:text="${stat.successCount}"></td>
+                <td th:text="${stat.failureCount}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

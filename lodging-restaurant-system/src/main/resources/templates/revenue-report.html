@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Daily Revenue Summary</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>Daily Revenue Summary</h1>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Total Revenue</h5>
+                <p class="card-text" th:text="'$' + ${totalRevenue}"></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

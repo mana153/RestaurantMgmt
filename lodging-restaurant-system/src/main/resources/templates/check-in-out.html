@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Check-in / Check-out</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>Check-in / Check-out</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Check-in</h2>
+                <form th:action="@{/receptionist/check-in}" method="post">
+                    <div class="form-group">
+                        <label>Reservation ID</label>
+                        <input type="number" class="form-control" name="reservationId" required/>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Check-in & Assign Key</button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <h2>Check-out</h2>
+                <form th:action="@{/receptionist/check-out}" method="post">
+                    <div class="form-group">
+                        <label>Reservation ID</label>
+                        <input type="number" class="form-control" name="reservationId" required/>
+                    </div>
+                    <button type="submit" class="btn btn-danger">Check-out & Deactivate Key</button>
+                </form>
+            </div>
+        </div>
+
+        <hr>
+
+        <h2>Active Digital Keys</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Reservation ID</th>
+                <th>Guest</th>
+                <th>Room</th>
+                <th>Digital Key Code</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="res : ${reservations}" th:if="${res.status == 'Checked-in'}">
+                <td th:text="${res.id}"></td>
+                <td th:text="${res.guest.firstName} + ' ' + ${res.guest.lastName}"></td>
+                <td th:text="${res.room.roomNumber}"></td>
+                <td th:text="${res.digitalKeyCode}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
