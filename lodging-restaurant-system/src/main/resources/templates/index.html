@@ -1,16 +1,82 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Welcome</title>
+    <title>The Golden Spoon - Lodging & Restaurant</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .hero-banner {
+            background: url('https://source.unsplash.com/1600x900/?hotel,lobby') no-repeat center center;
+            background-size: cover;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        .section {
+            padding: 60px 0;
+        }
+    </style>
 </head>
 <body>
-<div layout:fragment="content">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">The Golden Spoon</a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/signup">Sign Up</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<header class="hero-banner">
     <div class="container">
         <h1>Welcome to The Golden Spoon</h1>
-        <p>Your one-stop solution for lodging and restaurant management.</p>
+        <p>Experience luxury lodging and exquisite dining.</p>
     </div>
+</header>
+
+<div class="container">
+    <section id="rooms" class="section">
+        <h2>Featured Rooms</h2>
+        <div class="row">
+            </div>
+    </section>
+
+    <section id="restaurant" class="section bg-light">
+        <h2>Restaurant Highlights</h2>
+        <div class="row">
+            </div>
+    </section>
+
+    <section id="offers" class="section">
+        <h2>Special Offers</h2>
+        <div class="row">
+            </div>
+    </section>
+
+    <section id="testimonials" class="section bg-light">
+        <h2>What Our Guests Say</h2>
+        <div class="row">
+            </div>
+    </section>
 </div>
+
+<footer class="section bg-dark text-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Contact Us</h5>
+                <p>123 Luxury Lane, Hospitality City</p>
+                <p>Email: contact@thegoldenspoon.com</p>
+                <p>Phone: (123) 456-7890</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
 </body>
 </html>

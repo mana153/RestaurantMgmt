@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Lodging & Restaurant</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
@@ -10,29 +10,49 @@
 <div class="main-layout">
     <!-- Sidebar -->
     <div class="sidebar">
-        <h3>Admin Menu</h3>
+        <h3>Menu</h3>
         <a th:href="@{/}">Home</a>
-        <a th:href="@{/menu-items}">Menu Management</a>
-        <a th:href="@{/admin/rooms}">Room Inventory</a>
-        <a th:href="@{/inventory}">Inventory Management</a>
-        <a th:href="@{/admin/users}">User Management</a>
-        <a th:href="@{/admin/audit-log}">System Audit Log</a>
-        <hr>
-        <h3>Operations</h3>
-        <a th:href="@{/receptionist/room-status}">Room Status</a>
-        <a th:href="@{/receptionist/check-in-out}">Check-in/out</a>
-        <a th:href="@{/receptionist/folios}">Folio Management</a>
-        <a th:href="@{/cashier/pos}">POS Terminal</a>
-        <a th:href="@{/cashier/tables}">Table Management</a>
-        <a th:href="@{/housekeeping/assignments}">Housekeeping Assignments</a>
-        <a th:href="@{/housekeeping/my-tasks/1}">My Housekeeping Tasks</a>
-        <a th:href="@{/chef/kot}">KOT Board</a>
-        <a th:href="@{/manager/reports/occupancy}">Occupancy Report</a>
-        <a th:href="@{/manager/reports/revenue}">Revenue Report</a>
-        <a th:href="@{/manager/scheduling}">Staff Scheduling</a>
-        <hr>
-        <h3>API</h3>
-        <a th:href="@{/api/dashboard}">API Dashboard</a>
+
+        <!-- Guest Menu -->
+        <div sec:authorize="hasRole('GUEST')">
+            <a th:href="@{/booking}">Booking</a>
+            <a th:href="@{/guest/menu}">Menu</a>
+            <a th:href="@{/guest/1/preferences}">My Preferences</a>
+        </div>
+
+        <!-- Admin Menu -->
+        <div sec:authorize="hasRole('ADMIN')">
+            <h3>Admin Menu</h3>
+            <a th:href="@{/menu-items}">Menu Management</a>
+            <a th:href="@{/admin/rooms}">Room Inventory</a>
+            <a th:href="@{/inventory}">Inventory Management</a>
+            <a th:href="@{/admin/users}">User Management</a>
+            <a th:href="@{/admin/audit-log}">System Audit Log</a>
+            <hr>
+        </div>
+
+        <!-- Operations Menu -->
+        <div sec:authorize="hasAnyRole('RECEPTIONIST', 'CASHIER', 'HOUSEKEEPING', 'CHEF', 'MANAGER')">
+            <h3>Operations</h3>
+            <a th:href="@{/receptionist/room-status}" sec:authorize="hasRole('RECEPTIONIST')">Room Status</a>
+            <a th:href="@{/receptionist/check-in-out}" sec:authorize="hasRole('RECEPTIONIST')">Check-in/out</a>
+            <a th:href="@{/receptionist/folios}" sec:authorize="hasRole('RECEPTIONIST')">Folio Management</a>
+            <a th:href="@{/cashier/pos}" sec:authorize="hasRole('CASHIER')">POS Terminal</a>
+            <a th:href="@{/cashier/tables}" sec:authorize="hasRole('CASHIER')">Table Management</a>
+            <a th:href="@{/housekeeping/assignments}" sec:authorize="hasRole('HOUSEKEEPING')">Housekeeping Assignments</a>
+            <a th:href="@{/housekeeping/my-tasks/1}" sec:authorize="hasRole('HOUSEKEEPING')">My Housekeeping Tasks</a>
+            <a th:href="@{/chef/kot}" sec:authorize="hasRole('CHEF')">KOT Board</a>
+            <a th:href="@{/manager/reports/occupancy}" sec:authorize="hasRole('MANAGER')">Occupancy Report</a>
+            <a th:href="@{/manager/reports/revenue}" sec:authorize="hasRole('MANAGER')">Revenue Report</a>
+            <a th:href="@{/manager/scheduling}" sec:authorize="hasRole('MANAGER')">Staff Scheduling</a>
+            <hr>
+        </div>
+
+        <!-- API Menu -->
+        <div sec:authorize="hasRole('ADMIN')">
+            <h3>API</h3>
+            <a th:href="@{/api/dashboard}">API Dashboard</a>
+        </div>
     </div>
 
     <div class="content">

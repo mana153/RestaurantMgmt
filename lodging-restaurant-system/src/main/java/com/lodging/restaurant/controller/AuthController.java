@@ -2,59 +2,32 @@ package com.lodging.restaurant.controller;
 
 import com.lodging.restaurant.model.User;
 import com.lodging.restaurant.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AuthController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @GetMapping("/signup")
-    public String signupPage(Model model) {
-
-        model.addAttribute("user", new User());
-
+    public String signupForm() {
         return "signup";
     }
 
     @PostMapping("/signup")
-    public String signup(@ModelAttribute User user) {
-
+    public String signup(@RequestParam String fullName, @RequestParam String email, @RequestParam String password) {
+        User user = new User(fullName, email, passwordEncoder.encode(password));
         userRepository.save(user);
-
         return "redirect:/login";
-    }
-
-    @GetMapping("/login")
-    public String loginPage() {
-
-        return "login";
-    }
-
-    @PostMapping("/login")
-    public String login(@RequestParam String email,
-                        @RequestParam String password,
-                        Model model,
-                        jakarta.servlet.http.HttpSession session) {
-
-        User user = userRepository.findByEmail(email);
-
-        if (user != null &&
-                user.getPassword().equals(password)) {
-
-            session.setAttribute("loggedInUser",
-                    user.getFullName());
-
-            return "redirect:/";
-        }
-
-        model.addAttribute("error",
-                "Invalid Email or Password");
-
-        return "login";
     }
 }

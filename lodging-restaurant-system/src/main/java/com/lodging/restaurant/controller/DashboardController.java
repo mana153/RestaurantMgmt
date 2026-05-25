@@ -1,22 +1,43 @@
 package com.lodging.restaurant.controller;
 
-import com.lodging.restaurant.repository.ApiUsageRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class DashboardController {
 
-    @Autowired
-    private ApiUsageRepository repository;
+    @GetMapping("/admin/dashboard")
+    public String adminDashboard() {
+        return "dashboard/admin";
+    }
 
-    @GetMapping("/api-dashboard")
-    public String dashboard(Model model) {
+    @GetMapping("/manager/dashboard")
+    public String managerDashboard() {
+        return "dashboard/manager";
+    }
 
-        model.addAttribute("usageList", repository.findAll());
+    @GetMapping("/receptionist/dashboard")
+    public String receptionistDashboard() {
+        return "dashboard/receptionist";
+    }
 
-        return "api-dashboard";
+    @GetMapping("/cashier/dashboard")
+    public String cashierDashboard() {
+        return "dashboard/cashier";
+    }
+
+    @GetMapping("/chef/dashboard")
+    public String chefDashboard() {
+        return "dashboard/chef";
+    }
+
+    @GetMapping("/housekeeping/dashboard")
+    public String housekeepingDashboard() {
+        return "dashboard/housekeeping";
+    }
+
+    @GetMapping("/guest/dashboard")
+    public String guestDashboard() {
+        return "dashboard/guest";
     }
 }
